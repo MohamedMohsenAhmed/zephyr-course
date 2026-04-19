@@ -1,0 +1,18 @@
+/* CORRECT - alias points to the child node that has gpios */
+/ { 
+	aliases {
+    led0 = &led_0;
+};
+
+leds {
+    compatible = "gpio-leds";
+    led_0: led_0 {        /* label must be on this node */
+        gpios = <&gpio1 16 GPIO_ACTIVE_HIGH>;
+    };
+};
+};
+
+&gpio0 {
+    status = "okay";
+};
+
