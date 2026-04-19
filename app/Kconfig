@@ -1,0 +1,123 @@
+menuconfig LED_SUBSYSTEM
+    bool "LED Subsystem"
+    default y
+    help
+      Enable the LED subsystem configuration.
+
+if LED_SUBSYSTEM
+
+# ─────────────────────────────────────────────
+# Blink Speed Choice
+# ─────────────────────────────────────────────
+choice SAMPLE_LED_BLINK_SPEED
+    prompt "LED blink sleep time"
+    default SAMPLE_LED_BLINK_MEDIUM
+    help
+      Select the blink speed of the LED strip.
+
+config SAMPLE_LED_BLINK_SLOW
+    bool "Slow"
+
+config SAMPLE_LED_BLINK_MEDIUM
+    bool "Medium"
+
+config SAMPLE_LED_BLINK_FAST
+    bool "Fast"
+
+endchoice
+
+# Hidden — derived automatically from choice above
+config SAMPLE_LED_UPDATE_DELAY
+    int
+    default 1000 if SAMPLE_LED_BLINK_SLOW
+    default 500  if SAMPLE_LED_BLINK_MEDIUM
+    default 200  if SAMPLE_LED_BLINK_FAST
+
+# ─────────────────────────────────────────────
+# Color Choice
+# ─────────────────────────────────────────────
+choice SAMPLE_LED_COLOR
+    prompt "LED color"
+    default SAMPLE_LED_COLOR_RED
+    help
+      Select the active color of the LED strip.
+
+config SAMPLE_LED_COLOR_RED
+    bool "Red"
+
+config SAMPLE_LED_COLOR_GREEN
+    bool "Green"
+
+config SAMPLE_LED_COLOR_BLUE
+    bool "Blue"
+
+endchoice
+
+# Hidden — derived automatically from color choice above
+config SAMPLE_LED_COLOR_R
+    int
+    default 255 if SAMPLE_LED_COLOR_RED
+    default 0
+
+config SAMPLE_LED_COLOR_G
+    int
+    default 255 if SAMPLE_LED_COLOR_GREEN
+    default 0
+
+config SAMPLE_LED_COLOR_B
+    int
+    default 255 if SAMPLE_LED_COLOR_BLUE
+    default 0
+
+# ─────────────────────────────────────────────
+# Advanced LED Settings (menuconfig)
+# ─────────────────────────────────────────────
+menuconfig LED_ADVANCED_SETTINGS
+    bool "Advanced LED settings"
+    default n
+    help
+      Enable advanced LED configuration options.
+
+if LED_ADVANCED_SETTINGS
+
+config SAMPLE_LED_BRIGHTNESS
+    int "LED brightness"
+    range 0 100
+    default 100
+    help
+      Set the brightness level of the LED strip (0 = off, 100 = full brightness).
+
+config SAMPLE_LED_FADE_DURATION
+    int "LED fade duration (ms)"
+    default 500
+    help
+      Duration in milliseconds for the LED fade effect.
+
+
+
+# ─────────────────────────────────────────────
+# Expert Settings (menu)
+# ─────────────────────────────────────────────
+menu "Expert settings"
+
+config SAMPLE_LED_DEBUG
+    bool "Enable LED debugging"
+    default n
+    help
+      Enable debug logging for the LED subsystem.
+      Prints detailed state information on each strip update.
+
+config SAMPLE_LED_CUSTOM_PATTERN
+    bool "Enable custom blink pattern"
+    default n
+    help
+      When enabled, the LED will use a custom blink pattern
+      instead of the standard single-color sweep.
+
+endmenu # Expert settings
+
+endif # LED_ADVANCED_SETTINGS
+
+endif # LED_SUBSYSTEM
+
+source "Kconfig.zephyr"
