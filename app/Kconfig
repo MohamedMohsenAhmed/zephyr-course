@@ -6,6 +6,10 @@ menuconfig LED_SUBSYSTEM
 
 if LED_SUBSYSTEM
 
+config APP_HEARTBEAT_PERIOD_MS
+    	int "App Heartbeat period (100-2000)ms"
+    	default 500
+    	range 100 2000
 # ─────────────────────────────────────────────
 # Blink Speed Choice
 # ─────────────────────────────────────────────

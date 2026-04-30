@@ -11,15 +11,16 @@ LOG_MODULE_REGISTER(main);
 #include <zephyr/drivers/spi.h>
 #include <zephyr/sys/util.h>
 
-#define STRIP_NODE DT_ALIAS(led_strip)
+#define STRIP_NODE DT_ALIAS(app_led)
 
-#if DT_NODE_HAS_PROP(DT_ALIAS(led_strip), chain_length)
-#define STRIP_NUM_PIXELS DT_PROP(DT_ALIAS(led_strip), chain_length)
+#if DT_NODE_HAS_PROP(DT_ALIAS(app_led), chain_length)
+#define STRIP_NUM_PIXELS DT_PROP(DT_ALIAS(app_led), chain_length)
 #else
 #error Unable to determine length of LED strip
 #endif
 
 #define DELAY_TIME K_MSEC(CONFIG_SAMPLE_LED_UPDATE_DELAY)
+#define DELAY_TIME_1 K_MSEC(CONFIG_APP_HEARTBEAT_PERIOD_MS)
 
 #if defined(CONFIG_LED_ADVANCED_SETTINGS)
 #define APPLY_BRIGHTNESS(ch) \
@@ -129,7 +130,7 @@ int main(void)
 			    /* OFF */
     memset(pixels, 0x00, sizeof(pixels));
     led_strip_update_rgb(strip, pixels, STRIP_NUM_PIXELS);
-    k_sleep(DELAY_TIME);
+    k_sleep(DELAY_TIME_1);
         }
 #endif /* CONFIG_SAMPLE_LED_CUSTOM_PATTERN */
 
