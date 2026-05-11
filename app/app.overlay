@@ -13,7 +13,12 @@
 
 	our_driver0: our_driver {
 	compatible = "our,driver";
-	status = "okay";
+	status = "okay";	
+};
+
+	our_driver1: our_driver1 {
+	compatible = "our,driver";
+	status = "okay";	
 };
 };
 

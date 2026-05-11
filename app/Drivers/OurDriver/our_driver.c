@@ -45,6 +45,10 @@ static const struct led_rgb custom_pattern[] = {
 };
 #endif
 
+typedef struct our_driver_data {
+    int  DriverCounter;
+}our_data_t;
+
 LOG_MODULE_REGISTER(our_driver, LOG_LEVEL_INF);
 
 static struct led_rgb pixels[STRIP_NUM_PIXELS];
@@ -61,7 +65,18 @@ static DEVICE_API(sensor, api_our_driver) = {
     .channel_get = OurDriver_GetChannel,
 };
 
-#define DEV_INST(inst) DEVICE_DT_INST_DEFINE(inst, OurDriver_init, NULL, NULL, NULL, POST_KERNEL, 80, &api_our_driver);
+#define DEV_INST(inst)                                              \
+    static struct our_driver_data our_driver_data_##inst;           \
+    DEVICE_DT_INST_DEFINE(inst,                                     \
+        OurDriver_init,                                             \
+        NULL,                                                       \
+        &our_driver_data_##inst,                                    \
+        NULL,                                                       \
+        POST_KERNEL,                                                \
+        80,                                                         \
+        &api_our_driver);
+
+
 DT_INST_FOREACH_STATUS_OKAY(DEV_INST);
 
 
@@ -100,3 +115,20 @@ static int OurDriver_SampleFetch(const struct device *dev, enum sensor_channel c
  return rc;
 }
 
+int CustomDriver_ParamSet(const struct device *dev, int SetParam)
+{
+  int rc;
+    our_data_t *OurDriver_data = (our_data_t *)dev->data;
+
+    LOG_INF("Hello from set param");
+    if (NULL != OurDriver_data)
+    {
+        OurDriver_data->DriverCounter = SetParam;
+        LOG_INF("Setting my_param to %u", SetParam);
+    }
+    else
+    {
+        LOG_ERR("Device data is NULL");
+    }
+ return rc;
+}
