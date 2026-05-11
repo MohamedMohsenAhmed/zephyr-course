@@ -10,6 +10,11 @@
 	aliases {
 		app-led = &led_strip;
 	};
+
+	our_driver0: our_driver {
+	compatible = "our,driver";
+	status = "okay";
+};
 };
 
 &i2s0_default {
