@@ -1,10 +1,13 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/led_strip.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/spi.h>
-
 #include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/spi.h>
+#include <zephyr/device.h>
 #include <zephyr/logging/log.h>
+
+
+
+
 
 #define DT_DRV_COMPAT our_driver
 
