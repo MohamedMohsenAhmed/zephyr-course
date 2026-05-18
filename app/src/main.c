@@ -9,24 +9,24 @@
 
 #define LOG_LEVEL 4
 #include <zephyr/logging/log.h>
-LOG_MODULE_REGISTER(main);
-
-
+LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
+    
 int main(void)
 {
     int return_0 = 0;
     int return_1 = 0;
     
-    int Counterinst0 = 0;
-    int Counterinst1 = 0;
-
-    const struct device* driver = DEVICE_DT_GET(DT_NODELABEL(our_driver0));
+    static int Counterinst0 = 0;
+    static int Counterinst1 = 0;
     
+    const struct device* driver = DEVICE_DT_GET(DT_NODELABEL(our_driver0));
     const struct device* driver1 = DEVICE_DT_GET(DT_NODELABEL(our_driver1));
+
     struct sensor_value val;
+
     while (1)
     {
-        LOG_INF("set param counter to instance 0");
+        LOG_INF("set param counter to instance 0"); 
         Counterinst0 ++;
         CustomDriver_ParamSet(driver,Counterinst0);
         LOG_INF("set param counter to instance 1");
@@ -35,7 +35,7 @@ int main(void)
         return_0 = sensor_channel_get(driver, SENSOR_CHAN_AMBIENT_TEMP, &val);
         k_sleep(DELAY_TIME_1); 
         return_1 = sensor_sample_fetch(driver);
-        k_sleep(DELAY_TIME_1); 
+        k_sleep(DELAY_TIME_1);
     }
     return 0;
 }

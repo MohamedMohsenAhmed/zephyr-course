@@ -82,17 +82,16 @@ DT_INST_FOREACH_STATUS_OKAY(DEV_INST);
 
 static int OurDriver_init(const struct device *dev)
 {
-  int rc;
-  (int)rc;
+  int rc = 0;
+  ARG_UNUSED(rc);
   LOG_INF("Hello from our driver init");
   return rc;
-      
 }
 
 static int OurDriver_GetChannel(const struct device *dev, enum sensor_channel channel, struct sensor_value* val)
 {
   int rc;
-  LOG_INF("Hello from our driver sample fetch %d", channel);
+  LOG_INF("Hello from our driver Channel get %d", channel);
   memset(pixels, 0x00, sizeof(pixels));
   rc = led_strip_update_rgb(strip, pixels, STRIP_NUM_PIXELS);
   if (rc) {
@@ -117,7 +116,8 @@ static int OurDriver_SampleFetch(const struct device *dev, enum sensor_channel c
 
 int CustomDriver_ParamSet(const struct device *dev, int SetParam)
 {
-  int rc;
+  int rc = 0;
+  ARG_UNUSED(rc);
     our_data_t *OurDriver_data = (our_data_t *)dev->data;
 
     LOG_INF("Hello from set param");
